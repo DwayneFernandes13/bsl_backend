@@ -34,20 +34,37 @@ exports.createPlayer = async (req, res) => {
     }
   };
 // Controller to create a new player
-exports.editPlayer = (req, res) => {
-  const { name, age, position, phone } = req.body;
-  const newPlayer = {
-    id: players.length + 1,
+exports.editPlayer = async (req, res) => {
+  const { id, name, age, position, phone } = req.body;
+  let newPlayer = {
+    id,
     name,
     age,
     position,
     phone
   };
-  players.push(newPlayer);
+
+  // let value = newPlayer;
+  let value = { ...newPlayer };
+  
+  let dbResponse = await playerModel.editPlayer(value); 
+  console.log(dbResponse);
+  console.log("newPlayer",newPlayer);
+
+  if(dbResponse > 0){
+    res.json({
+      status: true,
+      message: 'Player edited successfully',
+      index: dbResponse[0]
+    });
+  }else{
+    
   res.json({
-    message: 'Player edited successfully',
-    data: newPlayer
+    status: false,
+    message: 'Player editing FAILED'
   });
+  }
+
 };
 // Controller to create a new player
 exports.deletePlayer = (req, res) => {

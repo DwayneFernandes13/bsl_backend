@@ -14,3 +14,12 @@ exports.createPlayer = async (data) => {
         console.error('Error inserting data:', error);
     }
 };
+exports.editPlayer = async (data) => {
+    try {
+        console.log('Editing data...');
+        let result = await db('players').where('id','=',data.id).update(data);
+        return result
+    } catch (error) {
+        console.error('Error editing data:', error);
+    }
+};
