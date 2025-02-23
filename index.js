@@ -3,6 +3,8 @@ const app = express()
 const port = 3000
 const db = require('./db');
 
+const adminRoutes = require('./src/admin/admin.routes'); // Import the route
+
 // Middleware to parse JSON bodies
 app.use(express.json());
 
@@ -28,6 +30,12 @@ db('players').insert({
 res.send('Hello World! POST NEW')
 
   })
+
+
+
+
+// Use the route
+app.use('/admin', adminRoutes); // Prefix the routes with '/api'
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
