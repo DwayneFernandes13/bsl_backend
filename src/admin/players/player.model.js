@@ -8,6 +8,7 @@ exports.createPlayer = async (data) => {
     try {
         console.log('Inserting data...');
         let result = await db('players').insert(data);
+        data["changed"] = true;
         return result
     } catch (error) {
         console.error('Error inserting data:', error);

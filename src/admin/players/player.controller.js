@@ -5,15 +5,19 @@ const playerModel = require('./player.model');
 // Controller to create a new player
 exports.createPlayer = async (req, res) => {
     const { name, age, position, phone } = req.body;
-    const newPlayer = {
+    let newPlayer = {
       name,
       age,
       position,
       phone
     };
+
+    // let value = newPlayer;
+    let value = { ...newPlayer };
     
-    let dbResponse = await playerModel.createPlayer(newPlayer); 
+    let dbResponse = await playerModel.createPlayer(value); 
     console.log(dbResponse);
+    console.log("newPlayer",newPlayer);
 
     if(dbResponse?.length > 0){
       res.json({
