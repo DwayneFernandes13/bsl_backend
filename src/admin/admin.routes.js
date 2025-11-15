@@ -5,6 +5,6 @@ const router = express.Router();
 const playerRoutes = require('./players/player.routes');
 
 // Use the routes
-app.use('/players', playerRoutes);
+router.use('/players', playerRoutes);
 
 module.exports = router;
