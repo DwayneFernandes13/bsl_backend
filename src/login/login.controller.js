@@ -41,6 +41,11 @@ module.exports = class LoginController {
             res.status(400);
         }
         // Send response to client
+        //   req.session.user = {
+        //     id: user.id,
+        //     email: user.email,
+        //     role: user.role,
+        // };
         res.json(returnResponse);
 
     }

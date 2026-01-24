@@ -25,7 +25,7 @@ async getHashPassword(data) {
     const result = await db('users')
         .where({ email: data.email })
         .first();
-    return result ? result.password_hash : null;
+    return result ? result : null;
 }
 
     async login(data){

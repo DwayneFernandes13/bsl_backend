@@ -4,7 +4,26 @@ const port = 3001
 const db = require('./db');
 let adminRoutes = require('./src/admin/admin.routes');
 let loginRoutes = require("./src/login/login.routes");
-const { append } = require('express/lib/response');
+// const { append } = require('express/lib/response');
+const session = require("express-session");
+const MySQLStore = require("express-mysql-session")(session);
+// Database connection options
+
+const sessionStore = new MySQLStore({}, db.client.pool);
+app.use(session({
+    name: "sid",
+    secret: process.env.SESSION_SECRET || "strong-secret",
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: {
+      httpOnly: true,
+      secure: false, // true with HTTPS
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60, // 1 hour
+    },
+  })
+);
 
 // CORS Middleware
 app.use((req, res, next) => {
@@ -27,7 +46,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => { 
       const currentDate = new Date();
-  let typerText =`${currentDate}'Hello World! Test \n gdvdfxg '`
+  let typerText =`${currentDate}'Hello World! Test \n'`
   
   res.send(typerText)
   // res.send('Test!')

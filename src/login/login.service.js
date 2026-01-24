@@ -29,22 +29,24 @@ module.exports = class LoginService {
     async login(_data) {
         try {
             let result;
+            let userData;
             let user = await LoginModel.exists(_data) 
             if(!user){
                 return LoginResponse.failed("user_not_exists");
             }
             else
                 {
-                    const passwordHash = await LoginModel.getHashPassword(_data);
+                    userData = await LoginModel.getHashPassword(_data);
                     const isMatch = await bcrypt.compare(
                     _data.password,
-                    passwordHash
+                    userData.password_hash
                     );
                     if(!isMatch){
                         return LoginResponse.failed("invalid_credentials");
                     }
                     else{
                         result = await LoginModel.login(_data)
+                        console.log("login service result::", result)
                     }
                 }
             return LoginResponse.success("login_success", user);
